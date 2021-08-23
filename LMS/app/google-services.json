@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "944652295927",
+    "project_id": "spit-library-system",
+    "storage_bucket": "spit-library-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944652295927:android:53e9d7755e0dba670bbdf2",
+        "android_client_info": {
+          "package_name": "com.spit.lms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "944652295927-1v3l0157nc1s9v0v185hq8k13m3fsl90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB93AcFjGBh1SMhWbTQ5gcoyt0sGeT4ljo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "944652295927-1v3l0157nc1s9v0v185hq8k13m3fsl90.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Library Management System</string>
+    <string name="input_username">Enter Username</string>
+    <string name="input_password">Enter Password</string>
+    <string name="empty_username">Empty Username</string>
+    <string name="empty_password">Empty Password</string>
+    <string name="remember_password">Remember Password</string>
+    <string name="setting">Setting</string>
+    <string name="login">Login</string>
+    <string name="current_api">Current API Path</string>
+    <string name="api_address">New API Path</string>
+    <string name="confirm">Confirm</string>
+    <string name="book_listing">Book Listing</string>
+    <string name="call_number">Call No</string>
+    <string name="author">Author</string>
+    <string name="publisher">Publisher</string>
+    <string name="instock">InStock</string>
+    <string name="borrowed">Borrowed</string>
+    <string name="description">Description</string>
+    <string name="publisher_date">Publication date</string>
+    <string name="category">Category</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_stocktake">StockTake</string>
+    <string name="admin_setting_language_wrap">Language</string>
+    <string name="admin_setting_language_change">Change Language</string>
+    <string name="admin_setting_wrap">Setting</string>
+    <string name="admin_setting_api">API Setting</string>
+    <string name="logout">Logout</string>
+    <string name="no_internet_connection">Connection Failure</string>
+    <string name="user_not_exists">User not exist</string>
+    <string name="password_incorrect">Wrong Password</string>
+    <string name="password_at_least_eight">Password requires 8 digit</string>
+    <string name="same_password">Same password</string>
+    <string name="wrong_password">Wrong Password</string>
+    <string name="stocktake_progress">Progress</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
+    <string name="create_date">Create Date</string>
+    <string name="stocking">In Progress</string>
+    <string name="book_detail">Book Details</string>
+    <string name="keywords">Keywords</string>
+    <string name="search_history">Search History</string>
+    <string name="all">All</string>
+    <string name="missing">Missing</string>
+    <string name="stocktake">Found</string>
+    <string name="other">Other</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="change_password">Change Password</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="original_passowrd">Original Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="stocktake_instock">Instock</string>
+    <string name="stocktake_not_instock">Out Of Stock</string>
+    <string name="plz_original_passowrd">Enter Original Password</string>
+    <string name="plz_new_password">Enter New Password</string>
+    <string name="plz_confirm_password">Confirm Password</string>
+    <string name="confirm_password_incorrect">Password not match</string>
+    <string name="admin_setting_change_password">Change Password</string>
+    <string name="admin_setting_welcome">"Welcome %s "</string>
+
+    <string name="tchinese">繁體中文</string>
+    <string name="schinese">简体中文</string>
+    <string name="english">English</string>
+
+    <string name="start_downloading">Initialing download</string>
+
+    <string name="finish_stocktaking">Finish StockTake</string>
+    <string name="delete_stocktaking">Delete StockTake</string>
+    <string name="select_all">Select All</string>
+    <string name="stock_take_uploaded">Data uploaded</string>
+
+    <string name="advanced_search">Advanced Search</string>
+    <string name="location">Location</string>
+    <string name="reset">Reset</string>
+    <string name="search">Search</string>
+    <string name="filtering">Filtering</string>
+    <string name="plz_keyword">Please enter keywords</string>
+
+</resources>

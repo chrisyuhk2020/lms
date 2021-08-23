@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#F5F5F5"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include
+        layout="@layout/layout_toolbar"/>
+
+    <LinearLayout
+        android:background="#F5F5F5"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="0dp"/>
+
+        <EditText
+            android:layout_gravity="center"
+            android:inputType="text"
+            android:id="@+id/keyword_search"
+            android:imeOptions="actionDone"
+            android:gravity="left|center_vertical"
+            android:background="#FFFFFF"
+            android:textColor="@android:color/black"
+            android:textSize="13dp"
+            android:maxLines="1"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="30dp"/>
+
+        <ImageView
+            android:background="#ffffff"
+            android:padding="5dp"
+            android:id="@+id/barcode"
+            android:src="@drawable/barcode"
+            android:layout_margin="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:tint="@color/color_primary" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/search_bar"
+            app:tint="@color/color_primary"
+            android:src="@drawable/search"
+            android:layout_margin="5dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"/>
+    </LinearLayout>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        app:tabSelectedTextColor="@color/color_primary"
+        app:tabIndicatorColor="@color/color_primary"
+        app:tabIndicatorHeight="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/all"
+            />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/stocktake"
+            />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/missing"
+            />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/other"
+            />
+    </com.google.android.material.tabs.TabLayout>
+
+    <ListView
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:id="@+id/listview"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/start"
+            android:backgroundTint="@color/color_primary"
+            android:text="@string/start"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/save"
+            android:backgroundTint="@color/color_primary"
+            android:text="@string/save"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"/>
+    </LinearLayout>
+</LinearLayout>

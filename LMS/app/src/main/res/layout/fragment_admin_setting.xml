@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="#F5F5F5"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            layout="@layout/layout_toolbar"/>
+
+        <TextView
+            android:id="@+id/login_panel"
+            android:background="@color/white"
+            android:padding="10dp"
+            android:textSize="12dp"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/color_primary"
+            android:textStyle="bold"
+            android:text="@string/admin_setting_welcome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:background="#F5F5F5"/>
+
+        <LinearLayout
+            android:background="#F5F5F5"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:textSize="12dp"
+                android:layout_margin="10dp"
+                android:gravity="left|center_vertical"
+                android:textColor="@android:color/black"
+                android:text="@string/admin_setting_language_wrap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:id="@+id/change_language"
+                android:background="#FFFFFF"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@android:color/black"
+                    android:text="@string/admin_setting_language_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#F5F5F5"/>
+
+        <LinearLayout
+            android:background="#F5F5F5"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:textSize="12dp"
+                android:layout_margin="10dp"
+                android:gravity="left|center_vertical"
+                android:textColor="@android:color/black"
+                android:text="@string/admin_setting_wrap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:id="@+id/api_setting"
+                android:background="#FFFFFF"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@android:color/black"
+                    android:text="@string/admin_setting_api"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#F5F5F5"/>
+
+            <LinearLayout
+                android:id="@+id/change_password"
+                android:background="#FFFFFF"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@android:color/black"
+                    android:text="@string/admin_setting_change_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/logout"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:background="#CF5445"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <TextView
+                android:text="@string/logout"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+        </LinearLayout>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <include layout="@layout/layout_bottom_navigation_view" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/change_password_panel"
+        android:visibility="gone"
+        android:background="#66000000"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/change_password_panel_inside"
+            android:background="#F5F5F5"
+            android:layout_marginBottom="40dp"
+            android:orientation="vertical"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content">
+
+
+            <TextView
+                android:padding="10dp"
+                android:text="@string/change_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_marginBottom="5dp"
+                android:background="#FFFFFF"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/black"
+                    android:text="@string/new_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"/>
+
+                <EditText
+                    android:inputType="textPassword"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:id="@+id/new_password"
+                    android:hint="@string/plz_new_password"
+                    android:gravity="left|center_vertical"
+                    android:background="#00000000"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"/>
+
+
+                <EditText
+                    android:visibility="gone"
+                    android:background="#00000000"
+                    android:textSize="13dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="10dp"
+                android:background="#FFFFFF"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/black"
+                    android:text="@string/original_passowrd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"/>
+
+                <EditText
+                    android:inputType="textPassword"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:id="@+id/original_password"
+                    android:hint="@string/plz_original_passowrd"
+                    android:gravity="left|center_vertical"
+                    android:background="#00000000"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"/>
+
+
+                <EditText
+                    android:id="@+id/company_id"
+                    android:visibility="gone"
+                    android:background="#00000000"
+                    android:textSize="13dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="#FFFFFF"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center"
+                    android:textColor="@android:color/black"
+                    android:text="@string/confirm_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="0dp"/>
+
+                <EditText
+                    android:inputType="textPassword"
+                    android:id="@+id/confirm_password"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:hint="@string/plz_confirm_password"
+                    android:gravity="left|center_vertical"
+                    android:background="#00000000"
+                    android:textColor="@android:color/black"
+                    android:textSize="13dp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"/>
+
+
+                <EditText
+                    android:visibility="gone"
+                    android:background="#00000000"
+                    android:textSize="13dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/cancel_change_password"
+                    android:text="@string/cancel"
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/save_change_password"
+                    android:text="@string/save"
+                    android:layout_margin="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
