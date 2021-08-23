@@ -3,7 +3,7 @@ package com.spit.lms.System.Model;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class StockTakeListBook extends RealmObject {
+public class StockTakeListBook extends RealmObject implements Comparable<StockTakeListBook>{
     private String bookNo;
     private String callNo;
     private String name;
@@ -22,6 +22,11 @@ public class StockTakeListBook extends RealmObject {
     private String publishingDate;
     @PrimaryKey
     private String pk;
+
+    @Override
+    public int compareTo(StockTakeListBook o) {
+        return this.getBookNo().compareTo(o.getBookNo());
+    }
 
     public String getUserid() {
         return userid;
@@ -88,6 +93,8 @@ public class StockTakeListBook extends RealmObject {
     }
 
     public String getBookNo() {
+        if(bookNo == null)
+            return "";
         return bookNo;
     }
 
