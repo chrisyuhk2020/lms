@@ -80,4 +80,8 @@
     <string name="filtering">Filtering</string>
     <string name="plz_keyword">Please enter keywords</string>
 
+    <string name="reserved">Reserved</string>
+    <string name="return_date">Return Date</string>
+    <string name="borrowed_date">Borrowed Date</string>
+
 </resources>

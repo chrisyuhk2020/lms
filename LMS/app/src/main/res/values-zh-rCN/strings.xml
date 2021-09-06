@@ -79,5 +79,8 @@
     <string name="search">搜索</string>
     <string name="filtering">筛选</string>
     <string name="plz_keyword">請輸入關鍵字</string>
+    <string name="reserved">已预约</string>
+    <string name="return_date">归还日期</string>
+    <string name="borrowed_date">租借日期</string>
 
 </resources>
