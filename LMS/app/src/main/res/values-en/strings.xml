@@ -95,4 +95,8 @@
     <string name="reach_appointmentt_limit">Reach appointment limit</string>
     <string name="reach_reserved">This book is reserved</string>
     <string name="reach_borrowed">This book is borrowed</string>
+
+    <string name="renew">Renew</string>
+    <string name="reserved_by_others">Reserved</string>
+
 </resources>

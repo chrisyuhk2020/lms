@@ -6,10 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
@@ -170,7 +167,38 @@ class HistoryFragment : BaseFragment() {
                 view!!.findViewById<TextView>(R.id.bookNo).text = data.bookNo
                 view!!.findViewById<TextView>(R.id.callNo).text = data.callNo
                 view!!.findViewById<TextView>(R.id.title).text = data.name
-                //view!!.findViewById<TextView>(R.id.status).text = data.status
+
+                view!!.findViewById<TextView>(R.id.borrow_date).text = data.borrowDate
+                view!!.findViewById<TextView>(R.id.return_date).text = data.expirationDate
+
+
+                var status = "";
+                if(data.renew.equals("1")) {
+                    status = MainActivity.mContext.getString(R.string.renew)
+                }
+
+                if(data.waitingID.equals("1")) {
+                    status += " " + MainActivity.mContext.getString(R.string.reserved_by_others)
+                }
+
+                view!!.findViewById<TextView>(R.id.status).text = status
+
+                /*
+                ReNew：是否可续借1是0否
+                WaitingID：是否被预约0无，1有
+                 */
+
+                if(data.borrowDate == null || data.borrowDate.isEmpty()){
+                    (view!!.findViewById<TextView>(R.id.borrow_date).parent as LinearLayout).visibility = View.GONE
+                } else {
+                    (view!!.findViewById<TextView>(R.id.borrow_date).parent as LinearLayout).visibility = View.VISIBLE
+                }
+
+                if(data.expirationDate == null || data.expirationDate.isEmpty()){
+                    (view!!.findViewById<TextView>(R.id.return_date).parent as LinearLayout).visibility = View.GONE
+                } else {
+                    (view!!.findViewById<TextView>(R.id.return_date).parent as LinearLayout).visibility = View.VISIBLE
+                }
 
                 Glide.with(MainActivity.mContext).load("").into(view!!.findViewById<ImageView>(R.id.image))
                 Glide.with(MainActivity.mContext).load(R.drawable.login_frontal_bg).into(view!!.findViewById<ImageView>(R.id.image))
