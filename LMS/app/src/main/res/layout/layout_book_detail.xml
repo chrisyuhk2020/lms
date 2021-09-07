@@ -218,21 +218,49 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/status_wrapper"
-                            android:layout_marginTop="10dp"
-                            android:background="#88BD89"
+                            android:orientation="horizontal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
 
-                            <TextView
-                                android:id="@+id/book_detail_status"
-                                android:paddingLeft="20dp"
-                                android:paddingRight="20dp"
-                                android:paddingTop="5dp"
-                                android:paddingBottom="5dp"
+                            <LinearLayout
+                                android:id="@+id/status_wrapper"
+                                android:layout_marginTop="10dp"
+                                android:background="#88BD89"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content">
 
+                                <TextView
+                                    android:id="@+id/book_detail_status"
+                                    android:paddingLeft="20dp"
+                                    android:paddingRight="20dp"
+                                    android:paddingTop="5dp"
+                                    android:paddingBottom="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="10dp"
+                                android:layout_height="0dp"/>
+
+                            <LinearLayout
+                                android:id="@+id/reserve_wrapper"
+                                android:layout_marginTop="10dp"
+                                android:background="@android:color/holo_orange_light"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:text="@string/reserve"
+                                    android:paddingLeft="20dp"
+                                    android:paddingRight="20dp"
+                                    android:paddingTop="5dp"
+                                    android:paddingBottom="5dp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

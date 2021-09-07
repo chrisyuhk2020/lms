@@ -561,7 +561,7 @@ public class NewMainActivity extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
-        conn();
+        //conn();
 //BB44F26E12E74FA4867FD10BD41C4CBD,BF07994FB554493B97A46B39083C8A61
         //0DEDBB4A9E5044AA83F9D7E762CC18E2,EB54CB74F3A64DF6B35B980E7A98B66A
     }
@@ -680,7 +680,8 @@ public class NewMainActivity extends AppCompatActivity {
     }
 
     public static boolean isConnected()  {
-
+        return true;
+        /*
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
@@ -710,7 +711,7 @@ public class NewMainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        return false;
+        return false;*/
     }
 
 

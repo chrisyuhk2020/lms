@@ -22,6 +22,8 @@
     <string name="category">Category</string>
     <string name="menu_search">Search</string>
     <string name="menu_stocktake">StockTake</string>
+    <string name="menu_profile">Profile</string>
+
     <string name="admin_setting_language_wrap">Language</string>
     <string name="admin_setting_language_change">Change Language</string>
     <string name="admin_setting_wrap">Setting</string>
@@ -80,8 +82,17 @@
     <string name="filtering">Filtering</string>
     <string name="plz_keyword">Please enter keywords</string>
 
+    <string name="reserve">Reserve</string>
+
     <string name="reserved">Reserved</string>
     <string name="return_date">Return Date</string>
     <string name="borrowed_date">Borrowed Date</string>
+    <string name="appointment_date">Appointment Date</string>
 
+    <string name="success">Success</string>
+
+    <string name="reach_skip_limit">Reach skip appointment limit</string>
+    <string name="reach_appointmentt_limit">Reach appointment limit</string>
+    <string name="reach_reserved">This book is reserved</string>
+    <string name="reach_borrowed">This book is borrowed</string>
 </resources>

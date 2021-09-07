@@ -15,7 +15,15 @@ public class Book {
 
     private String description;
     private int status;
+    private String rono;
 
+    public String getRono() {
+        return rono;
+    }
+
+    public void setRono(String rono) {
+        this.rono = rono;
+    }
 
     public String getPublishingDate() {
         return publishingDate;

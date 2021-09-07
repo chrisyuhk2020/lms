@@ -34,6 +34,7 @@
 
     <string name="menu_search">搜尋圖書</string>
     <string name="menu_stocktake">盤點列表</string>
+    <string name="menu_profile">個人紀錄</string>
 
 
     <string name="admin_setting_language_wrap">語言</string>
@@ -113,9 +114,16 @@
     <string name="filtering">篩選</string>
     <string name="plz_keyword">請輸入關鍵字</string>
 
+    <string name="reserve">預約</string>
     <string name="reserved">已預約</string>
     <string name="return_date">歸還日期</string>
-
     <string name="borrowed_date">租借日期</string>
+    <string name="appointment_date">預約日期</string>
 
+    <string name="success">成功</string>
+
+    <string name="reach_skip_limit">當前年度爽約次數已經達到了</string>
+    <string name="reach_appointmentt_limit">當前預約次數已經完成</string>
+    <string name="reach_reserved">當前書籍已經被預約</string>
+    <string name="reach_borrowed">當前書籍已被自己借出</string>
 </resources>

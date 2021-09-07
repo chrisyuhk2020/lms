@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.spit.lms.MainActivity
 import com.spit.lms.Network.APIUtils
@@ -33,6 +34,9 @@ class HistoryFragment : BaseFragment() {
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
         view = LayoutInflater.from(MainActivity.mContext).inflate(R.layout.fragment_history, null)
+
+        view.findViewById<BottomNavigationView>(R.id.bottom_navigation).selectedItemId = (R.id.bottom_stock_take);
+        view.findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener(SharedBottomHandler())
 
         listview = view.findViewById<ListView>(R.id.listview)
 
@@ -105,18 +109,22 @@ class HistoryFragment : BaseFragment() {
             var user = (event!!.response as UserDetailResponse)
             view.findViewById<TextView>(R.id.name).text = user.name
             view.findViewById<TextView>(R.id.email).text = user.email
-            Glide.with(MainActivity.mContext).load(user.img)
+            Glide.with(MainActivity.mContext).load(user.img).error(R.drawable.account)
                 .into(view.findViewById<ImageView>(R.id.image))
         }
 
         if (event!!.url.contains("borrowHistory")) {
             borrowHistoryResponse = event!!.response as ArrayList<BorrowHistoryResponse>
-            listview.adapter = ListAdapter(0)
+            if((view.findViewById<TabLayout>(R.id.tab_layout)).selectedTabPosition == 0){
+                listview.adapter = ListAdapter(0)
+            }
         }
 
         if (event!!.url.contains("reservedHistory")) {
-            reservedHistoryResponse = event!!.response as ArrayList<ReservedHistoryResponse>\
-            listview.adapter = ListAdapter(1)
+            reservedHistoryResponse = event!!.response as ArrayList<ReservedHistoryResponse>
+            if((view.findViewById<TabLayout>(R.id.tab_layout)).selectedTabPosition == 1) {
+                listview.adapter = ListAdapter(1)
+            }
         }
     }
 

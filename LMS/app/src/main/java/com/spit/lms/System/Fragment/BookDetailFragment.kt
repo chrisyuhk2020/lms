@@ -18,13 +18,23 @@ import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.spit.lms.MainActivity
+import com.spit.lms.Network.APIUtils
 import com.spit.lms.R
 import com.spit.lms.System.Base.BaseFragment
 import com.spit.lms.System.Base.BaseUtils.utf
+import com.spit.lms.System.Base.SharedPrefsUtils
 import com.spit.lms.System.Base.StatusConverter
+import com.spit.lms.System.Event.DialogEvent
+import com.spit.lms.System.Event.ResponseEvent
 import com.spit.lms.System.Model.Book
 import com.spit.lms.System.Model.StockTakeListBook
+import com.spit.lms.System.Response.BorrowHistoryResponse
+import com.spit.lms.System.Response.ReserveBookResponse
+import com.spit.lms.System.Response.ReservedHistoryResponse
+import com.spit.lms.System.Response.UserDetailResponse
 import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
@@ -78,6 +88,23 @@ class BookDetailFragment : BaseFragment() {
         view.findViewById<TextView>(R.id.book_detail_status).text = StatusConverter.getStatusById(
             bookObj.status
         )
+
+        if(bookObj.status == 4) {
+            view.findViewById<LinearLayout>(R.id.reserve_wrapper).visibility = View.GONE
+        } else {
+            view.findViewById<LinearLayout>(R.id.reserve_wrapper).visibility = View.VISIBLE
+        }
+
+        view.findViewById<LinearLayout>(R.id.reserve_wrapper).setOnClickListener {
+
+            APIUtils.get(
+                SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/reserveBook",
+                listOf(
+                    "userid" to SharedPrefsUtils.getStringPreference(MainActivity.mContext, "USERID"),
+                    "bookRoNo" to bookObj.rono
+                ), MainActivity.mContext, ReserveBookResponse::class.java
+            )
+        }
 
         view.findViewById<LinearLayout>(R.id.status_wrapper).setOnClickListener {
             Log.i("status", "status  " + stBookObj.status + " " + stBookObj.tempType)
@@ -196,6 +223,47 @@ class BookDetailFragment : BaseFragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: ResponseEvent?) {
+
+        if (event!!.url.contains("reserveBook")) {
+            var reserveBookResponse = (event!!.response as ReserveBookResponse);
+
+            if(reserveBookResponse != null) {
+                if(reserveBookResponse.status == "success"){
+                    EventBus.getDefault().post(DialogEvent(MainActivity.mContext.getString(R.string.app_name), MainActivity.mContext.getString(R.string.success)))
+                } else if(reserveBookResponse.status == "failure"){
+                    /*
+                    100：当前年度爽约次数已经达到上限
+                    101：当前预约次数已经达到上限
+                    102：当前书籍已经被预约
+                    103：当前书籍已被自己借出
+
+                     */
+                    var result = ""
+
+                    if(reserveBookResponse.message == "100") {
+                        result = MainActivity.mContext.getString(R.string.reach_skip_limit)
+                    }
+
+                    if(reserveBookResponse.message == "101") {
+                        result = MainActivity.mContext.getString(R.string.reach_appointmentt_limit)
+                    }
+
+                    if(reserveBookResponse.message == "102") {
+                        result = MainActivity.mContext.getString(R.string.reach_reserved)
+                    }
+
+                    if(reserveBookResponse.message == "103") {
+                        result = MainActivity.mContext.getString(R.string.reach_borrowed)
+                    }
+
+                    EventBus.getDefault().post(DialogEvent(MainActivity.mContext.getString(R.string.app_name),  result))
+                }
+            }
+        }
+
     }
 
 }

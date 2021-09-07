@@ -11,11 +11,17 @@ class SharedBottomHandler : BottomNavigationView.OnNavigationItemSelectedListene
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+
+            R.id.bottom_stock_take -> {
+                Log.i("bottom_stock_take", "bottom_stock_take")
+                (MainActivity.mContext as MainActivity).changeFragment(HistoryFragment())
+            }
+            /*
             R.id.bottom_stock_take -> {
                 Log.i("bottom_stock_take", "bottom_stock_take")
                 (MainActivity.mContext as MainActivity).changeFragment(StockTakeListingFragment())
             }
-
+*/
             R.id.bottom_search -> {
                 Log.i("bottom_search", "bottom_search")
                 BookListingFragment.query = ""
