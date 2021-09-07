@@ -1,15 +1,173 @@
 package com.spit.lms.System.Fragment
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.BaseAdapter
+import android.widget.ImageView
+import android.widget.ListView
+import android.widget.TextView
+import com.bumptech.glide.Glide
+import com.google.android.material.tabs.TabLayout
 import com.spit.lms.MainActivity
+import com.spit.lms.Network.APIUtils
 import com.spit.lms.R
 import com.spit.lms.System.Base.BaseFragment
+import com.spit.lms.System.Base.SharedPrefsUtils
+import com.spit.lms.System.Event.ResponseEvent
+import com.spit.lms.System.Response.BorrowHistoryResponse
+import com.spit.lms.System.Response.ReservedHistoryResponse
+import com.spit.lms.System.Response.UserDetailResponse
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 class HistoryFragment : BaseFragment() {
+    var borrowHistoryResponse : ArrayList<BorrowHistoryResponse>? = ArrayList();
+    var reservedHistoryResponse : ArrayList<ReservedHistoryResponse>? = ArrayList();
+
+    lateinit var listview : ListView;
+
     override fun onCreate(bundle: Bundle?) {
         super.onCreate(bundle)
-        view = LayoutInflater.from(MainActivity.mContext).inflate(R.layout.layout_stocktakelisting, null)
+        view = LayoutInflater.from(MainActivity.mContext).inflate(R.layout.fragment_history, null)
+
+        listview = view.findViewById<ListView>(R.id.listview)
+
+        var tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
+
+        APIUtils.get(
+            SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/userDetail",
+            listOf(
+                "userid" to SharedPrefsUtils.getStringPreference(MainActivity.mContext, "USERID")
+            ), MainActivity.mContext, UserDetailResponse::class.java
+        )
+
+        APIUtils.getArrayList(
+            SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/borrowHistory",
+            listOf(
+                "userid" to SharedPrefsUtils.getStringPreference(MainActivity.mContext, "USERID")
+            ), MainActivity.mContext, BorrowHistoryResponse::class.java
+        )
+
+        APIUtils.getArrayList(
+            SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/reservedHistory",
+            listOf(
+                "userid" to SharedPrefsUtils.getStringPreference(MainActivity.mContext, "USERID")
+            ), MainActivity.mContext, ReservedHistoryResponse::class.java
+        )
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(p0: TabLayout.Tab?) {
+            }
+
+            override fun onTabUnselected(p0: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabSelected(p0: TabLayout.Tab?) {
+                Log.i("position", "position " + p0!!.position)
+
+                if(p0!!.position == 0) {
+
+                    APIUtils.getArrayList(
+                        SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/borrowHistory",
+                        listOf(
+                            "userid" to SharedPrefsUtils.getStringPreference(MainActivity.mContext, "USERID")
+                        ), MainActivity.mContext, BorrowHistoryResponse::class.java
+                    )
+
+                } else {
+
+                    APIUtils.getArrayList(
+                        SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/reservedHistory",
+                        listOf(
+                            "userid" to SharedPrefsUtils.getStringPreference(MainActivity.mContext, "USERID")
+                        ), MainActivity.mContext, ReservedHistoryResponse::class.java
+                    )
+
+                }
+
+                listview.adapter = ListAdapter(p0!!.position)
+            }
+        })
     }
 
+    override fun onCreateView(layoutInflater: LayoutInflater, viewGroup: ViewGroup?, bundle: Bundle?): View? {
+        return view;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: ResponseEvent?) {
+        if (event!!.response is UserDetailResponse) {
+            var user = (event!!.response as UserDetailResponse)
+            view.findViewById<TextView>(R.id.name).text = user.name
+            view.findViewById<TextView>(R.id.email).text = user.email
+            Glide.with(MainActivity.mContext).load(user.img)
+                .into(view.findViewById<ImageView>(R.id.image))
+        }
+
+        if (event!!.url.contains("borrowHistory")) {
+            borrowHistoryResponse = event!!.response as ArrayList<BorrowHistoryResponse>
+            listview.adapter = ListAdapter(0)
+        }
+
+        if (event!!.url.contains("reservedHistory")) {
+            reservedHistoryResponse = event!!.response as ArrayList<ReservedHistoryResponse>\
+            listview.adapter = ListAdapter(1)
+        }
+    }
+
+    inner class ListAdapter(var pos : Int) : BaseAdapter() {
+        override fun getCount(): Int {
+            if(pos == 0) {
+                return this@HistoryFragment.borrowHistoryResponse!!.size
+            }
+
+            return this@HistoryFragment.reservedHistoryResponse!!.size
+        }
+
+        override fun getItem(position: Int): Any {
+            if(pos == 0) {
+                return this@HistoryFragment.borrowHistoryResponse!![position] as Any
+            }
+
+            return this@HistoryFragment.reservedHistoryResponse!![position] as Any
+        }
+
+        override fun getItemId(position: Int): Long {
+            return getItem(position).hashCode().toLong()
+        }
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            var view: View? = null
+
+            if (convertView == null) {
+                view = LayoutInflater.from(MainActivity.mContext).inflate(R.layout.borrow_history_cell, null)
+            } else {
+                view = convertView
+            }
+
+            //BorrowHistoryResponse
+            //ReservedHistoryResponse
+
+            if (pos == 0) {
+                var data = getItem(position) as BorrowHistoryResponse
+                view!!.findViewById<TextView>(R.id.bookNo).text = data.bookNo
+                view!!.findViewById<TextView>(R.id.callNo).text = data.callNo
+                view!!.findViewById<TextView>(R.id.title).text = data.name
+
+            } else {
+                var data = getItem(position) as ReservedHistoryResponse
+                view!!.findViewById<TextView>(R.id.bookNo).text = data.bookNo
+                view!!.findViewById<TextView>(R.id.callNo).text = data.callNo
+                view!!.findViewById<TextView>(R.id.title).text = data.name
+
+            }
+
+            return view!!;
+        }
+    }
 }
