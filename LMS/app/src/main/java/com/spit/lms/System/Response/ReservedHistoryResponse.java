@@ -17,6 +17,15 @@ public class ReservedHistoryResponse {
     private String expirationDate;
     private String rono;
     private String AppRoNo;
+    private String waitingDate;
+
+    public String getWaitingDate() {
+        return waitingDate;
+    }
+
+    public void setWaitingDate(String waitingDate) {
+        this.waitingDate = waitingDate;
+    }
 
     public String getBookNo() {
         return bookNo;

@@ -25,28 +25,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:textSize="11dp"
                     android:id="@+id/bookNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
+                    android:textSize="11dp"
                     android:text=" | "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
 
                 <TextView
+                    android:textSize="11dp"
                     android:text="@string/call_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
                 <TextView
+                    android:textSize="11dp"
                     android:text=" : "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
 
                 <TextView
+                    android:textSize="11dp"
                     android:id="@+id/callNo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -84,7 +89,7 @@
                         android:layout_height="wrap_content"/>
 
                     <TextView
-                        android:id="@+id/borrow_date"
+                        android:id="@+id/appointment_date"
                         android:text=""
                         android:textColor="@color/black"
                         android:layout_width="wrap_content"
@@ -93,7 +98,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="invisible"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

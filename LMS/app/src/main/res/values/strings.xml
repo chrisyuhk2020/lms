@@ -122,8 +122,8 @@
 
     <string name="success">成功</string>
 
-    <string name="reach_skip_limit">當前年度爽約次數已經達到了</string>
-    <string name="reach_appointmentt_limit">當前預約次數已經完成</string>
-    <string name="reach_reserved">當前書籍已經被預約</string>
-    <string name="reach_borrowed">當前書籍已被自己借出</string>
+    <string name="reach_skip_limit">爽約次數已達上限</string>
+    <string name="reach_appointmentt_limit">預約次數已達上限</string>
+    <string name="reach_reserved">書籍已經被預約</string>
+    <string name="reach_borrowed">書籍已被借出</string>
 </resources>

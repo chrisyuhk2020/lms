@@ -94,9 +94,9 @@
                     101：当前预约次数已经达到上限
                     102：当前书籍已经被预约
                     103：当前书籍已被自己借出 -->
-    <string name="reach_skip_limit">当前年度爽约次数已经达到上限</string>
-    <string name="reach_appointmentt_limit">当前预约次数已经达到上限</string>
-    <string name="reach_reserved">当前书籍已经被预约</string>
-    <string name="reach_borrowed">当前书籍已被自己借出</string>
+    <string name="reach_skip_limit">爽约次数已达上限</string>
+    <string name="reach_appointmentt_limit">预约次数已达上限</string>
+    <string name="reach_reserved">书籍已被预约</string>
+    <string name="reach_borrowed">书籍已被借出</string>
 
 </resources>

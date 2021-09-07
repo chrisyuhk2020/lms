@@ -153,7 +153,11 @@ class HistoryFragment : BaseFragment() {
             var view: View? = null
 
             if (convertView == null) {
-                view = LayoutInflater.from(MainActivity.mContext).inflate(R.layout.borrow_history_cell, null)
+                if (pos == 0) {
+                    view = LayoutInflater.from(MainActivity.mContext).inflate(R.layout.borrow_history_cell, null)
+                } else {
+                    view = LayoutInflater.from(MainActivity.mContext).inflate(R.layout.appointment_history_cell, null)
+                }
             } else {
                 view = convertView
             }
@@ -166,12 +170,22 @@ class HistoryFragment : BaseFragment() {
                 view!!.findViewById<TextView>(R.id.bookNo).text = data.bookNo
                 view!!.findViewById<TextView>(R.id.callNo).text = data.callNo
                 view!!.findViewById<TextView>(R.id.title).text = data.name
+                //view!!.findViewById<TextView>(R.id.status).text = data.status
+
+                Glide.with(MainActivity.mContext).load("").into(view!!.findViewById<ImageView>(R.id.image))
+                Glide.with(MainActivity.mContext).load(R.drawable.login_frontal_bg).into(view!!.findViewById<ImageView>(R.id.image))
 
             } else {
                 var data = getItem(position) as ReservedHistoryResponse
                 view!!.findViewById<TextView>(R.id.bookNo).text = data.bookNo
                 view!!.findViewById<TextView>(R.id.callNo).text = data.callNo
                 view!!.findViewById<TextView>(R.id.title).text = data.name
+                view!!.findViewById<TextView>(R.id.status).text = data.status
+
+                view!!.findViewById<TextView>(R.id.appointment_date).text = data.waitingDate
+
+                Glide.with(MainActivity.mContext).load("").into(view!!.findViewById<ImageView>(R.id.image))
+                Glide.with(MainActivity.mContext).load(R.drawable.login_frontal_bg).into(view!!.findViewById<ImageView>(R.id.image))
 
             }
 
