@@ -21,8 +21,11 @@ import com.spit.lms.MainActivity
 import com.spit.lms.Network.APIUtils
 import com.spit.lms.R
 import com.spit.lms.System.Base.BaseFragment
+<<<<<<< HEAD
 import com.spit.lms.System.Base.BaseUtils.utf
 import com.spit.lms.System.Base.SharedPrefsUtils
+=======
+>>>>>>> parent of 687fe26 (commit)
 import com.spit.lms.System.Base.StatusConverter
 import com.spit.lms.System.Event.DialogEvent
 import com.spit.lms.System.Event.ResponseEvent
@@ -69,21 +72,21 @@ class BookDetailFragment : BaseFragment() {
 
 
        //view.findViewById<TextView>(R.id.book_detail_name).text = bookObj.bookNo
-        view.findViewById<TextView>(R.id.book_detail_name).text = utf(bookObj.callNo)
-        view.findViewById<TextView>(R.id.book_detail_name).text = utf(bookObj.name)
-        view.findViewById<TextView>(R.id.book_detail_author).text = utf(bookObj.author)
-        view.findViewById<TextView>(R.id.book_detail_isbn).text = utf(bookObj.isbn)
-        view.findViewById<TextView>(R.id.book_detail_publisher).text = utf(bookObj.publisher)
+        view.findViewById<TextView>(R.id.book_detail_name).text = bookObj.callNo
+        view.findViewById<TextView>(R.id.book_detail_name).text = bookObj.name
+        view.findViewById<TextView>(R.id.book_detail_author).text = bookObj.author
+        view.findViewById<TextView>(R.id.book_detail_isbn).text = bookObj.isbn
+        view.findViewById<TextView>(R.id.book_detail_publisher).text = bookObj.publisher
         Log.i("data", "data [" + bookObj.publishingDate + "]")
 
         if(bookObj.publishingDate != null && bookObj.publishingDate != "null") {
-            view.findViewById<TextView>(R.id.book_detail_publisher_date).text = utf(bookObj.publishingDate)
+            view.findViewById<TextView>(R.id.book_detail_publisher_date).text = bookObj.publishingDate
         } else {
             view.findViewById<TextView>(R.id.book_detail_publisher_date).text = ""
         }
-        view.findViewById<TextView>(R.id.book_detail_category).text = utf(bookObj.category)
+        view.findViewById<TextView>(R.id.book_detail_category).text = bookObj.category
         //view.findViewById<TextView>(R.id.book_detail_l).text = bookObj.location
-        view.findViewById<TextView>(R.id.book_detail_description).text = utf(bookObj.description)
+        view.findViewById<TextView>(R.id.book_detail_description).text = bookObj.description
 
         view.findViewById<TextView>(R.id.book_detail_status).text = StatusConverter.getStatusById(
             bookObj.status

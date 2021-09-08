@@ -18,9 +18,6 @@ import com.spit.lms.System.Model.StockTakeListBook;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.net.URLEncoder;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import io.realm.Realm;
 
@@ -67,41 +64,41 @@ public class BaseUtils {
                     if(fn.equals("bookNo")) {
                         stockTakeListBook = new StockTakeListBook();
                         Log.i("bookNo", "bookNo " + jParser.getText());
-                        stockTakeListBook.setBookNo(utf(jParser.getText()));
+                        stockTakeListBook.setBookNo(jParser.getText());
                     } else if(fn.equals("callNo")) {
                         Log.i("callNo", "callNo " + jParser.getText());
-                        stockTakeListBook.setCallNo(utf(jParser.getText()));
+                        stockTakeListBook.setCallNo(jParser.getText());
                     } else if(fn.equals("name")) {
                         Log.i("name", "name " + jParser.getText());
-                        stockTakeListBook.setName(utf(jParser.getText()));
+                        stockTakeListBook.setName(jParser.getText());
                     } else if(fn.equals("author")) {
                         Log.i("author", "author " + jParser.getText());
-                        stockTakeListBook.setAuthor(utf(jParser.getText()));
+                        stockTakeListBook.setAuthor(jParser.getText());
                     } else if(fn.equals("isbn")) {
                         Log.i("isbn", "isbn " + jParser.getText());
-                        stockTakeListBook.setIsbn(utf(jParser.getText()));
+                        stockTakeListBook.setIsbn(jParser.getText());
                     } else if(fn.equals("publisher")) {
                         Log.i("publisher", "publisher " + jParser.getText());
-                        stockTakeListBook.setPublisher(utf(jParser.getText()));
+                        stockTakeListBook.setPublisher(jParser.getText());
                     } else if(fn.equals("category")) {
                         Log.i("category", "category " + jParser.getText());
-                        stockTakeListBook.setCategory(utf(jParser.getText()));
+                        stockTakeListBook.setCategory(jParser.getText());
                     } else if(fn.equals("location")) {
                         Log.i("location", "location " + jParser.getText());
-                        stockTakeListBook.setLocation(utf(jParser.getText()));
+                        stockTakeListBook.setLocation(jParser.getText());
                     } else if(fn.equals("status")) {
                         try {
                             Log.i("status", "status " + jParser.getText());
-                            stockTakeListBook.setStatus((Integer.parseInt(jParser.getText())));
+                            stockTakeListBook.setStatus(Integer.parseInt(jParser.getText()));
                         } catch (Exception e){
                             e.printStackTrace();
                         }
                     } else if(fn.equals("description")) {
                         Log.i("description", "description " + jParser.getText());
-                        stockTakeListBook.setDescription(utf(jParser.getText()));
+                        stockTakeListBook.setDescription(jParser.getText());
                     } else if(fn.equals("epc")) {
                         Log.i("epc", "epc " + jParser.getText());
-                        stockTakeListBook.setEpc(utf(jParser.getText()));
+                        stockTakeListBook.setEpc(jParser.getText());
                     } else if(fn.equals("image")) {
                         Log.i("image", "image " + jParser.getText());
                         stockTakeListBook.setImage(jParser.getText());
@@ -113,7 +110,7 @@ public class BaseUtils {
                             e.printStackTrace();
                         }
                     } else if(fn.equals("publishingDate")) {
-                        stockTakeListBook.setPublishingDate(utf(jParser.getText()));
+                        stockTakeListBook.setPublishingDate(jParser.getText());
                     }
                 }
 
@@ -142,18 +139,4 @@ public class BaseUtils {
 
     }
 
-    public static String utf(String s) {
-        try {
-            //Pattern p = Pattern.compile("(&apos;)|(&#39;)|(%27)");
-            //Matcher m = p.matcher(s);
-            //String result = m.replaceAll("'");
-
-            Log.i("hihi", "hihi " + s.replace("&aposE;", "'") );
-
-            return s.replace("&aposE;", "'");//StringEscapeUtils.unescapeXml(s);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
-    }
 }

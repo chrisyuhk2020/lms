@@ -144,7 +144,6 @@ class StockTakeListingFragment : BaseFragment () {
         return view
     }
 
-    var total = 0
     inner class StockTakeListAdapter(val stli: List<StockListingResponse>) : BaseAdapter() {
         override fun getCount(): Int {
             return stli.size
@@ -207,8 +206,6 @@ class StockTakeListingFragment : BaseFragment () {
                 var source = Realm.getDefaultInstance().where(StockTakeListBook::class.java).equalTo("userid", SharedPrefsUtils.getStringPreference( MainActivity.mContext,"USERID"))
                         .equalTo("stocktakeno", getItem(position).stocktakeno);
 
-                this@StockTakeListingFragment.total = 0
-
                 if (source.count().toInt() == 0) {
 
                     if(NewMainActivity.isConnected()) {
@@ -216,8 +213,6 @@ class StockTakeListingFragment : BaseFragment () {
                         downloadPanel!!.visibility = View.VISIBLE
                         downloadTextView!!.text = MainActivity.mContext.getString(R.string.start_downloading)
                         downloadPanel!!.setOnClickListener {}
-
-                        this@StockTakeListingFragment.total = getItem(position).total
 
                         APIUtils.download(
                             SharedPrefsUtils.getStringPreference(
@@ -305,7 +300,7 @@ class StockTakeListingFragment : BaseFragment () {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: InsertEvent?) {
-        downloadTextView!!.text = event!!.count.toString() + " / " + total
+        downloadTextView!!.text = event!!.count.toString()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
