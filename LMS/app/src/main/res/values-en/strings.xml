@@ -83,6 +83,7 @@
     <string name="plz_keyword">Please enter keywords</string>
 
     <string name="reserve">Reserve</string>
+    <string name="already_borrowed">Borrowed</string>
 
     <string name="reserved">Reserved</string>
     <string name="return_date">Return Date</string>
