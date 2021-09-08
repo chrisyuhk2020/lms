@@ -17,6 +17,7 @@ import com.spit.lms.Network.APIUtils
 import com.spit.lms.R
 import com.spit.lms.Rfidbase.NewMainActivity
 import com.spit.lms.System.Base.BaseFragment
+import com.spit.lms.System.Base.BaseUtils.utf
 import com.spit.lms.System.Base.SharedPrefsUtils
 import com.spit.lms.System.Base.StatusConverter
 import com.spit.lms.System.Database.QueryHistory
@@ -186,14 +187,14 @@ class BookListingFragment : BaseFragment() {
 
             var book = getItem(position)
 
-            view!!.findViewById<TextView>(R.id.bookno).text = book.bookNo
-            view!!.findViewById<TextView>(R.id.call_no).text = book.callNo
-            view!!.findViewById<TextView>(R.id.title).text = book.name
-            view!!.findViewById<TextView>(R.id.author).text = book.author
-            view!!.findViewById<TextView>(R.id.isbn).text = book.isbn
-            view!!.findViewById<TextView>(R.id.publisher).text = book.publisher
-            view!!.findViewById<TextView>(R.id.category).text = book.category
-            view!!.findViewById<TextView>(R.id.location).text = book.location
+            view!!.findViewById<TextView>(R.id.bookno).text = utf(book.bookNo)
+            view!!.findViewById<TextView>(R.id.call_no).text = utf(book.callNo)
+            view!!.findViewById<TextView>(R.id.title).text = utf(book.name)
+            view!!.findViewById<TextView>(R.id.author).text = utf(book.author)
+            view!!.findViewById<TextView>(R.id.isbn).text = utf(book.isbn)
+            view!!.findViewById<TextView>(R.id.publisher).text = utf(book.publisher)
+            view!!.findViewById<TextView>(R.id.category).text = utf(book.category)
+            view!!.findViewById<TextView>(R.id.location).text = utf(book.location)
 
             view!!.findViewById<TextView>(R.id.status).text = StatusConverter.getStatusById(book.status)
 
@@ -306,14 +307,14 @@ class BookListingFragment : BaseFragment() {
 
             var book = getItem(position)
 
-            view!!.findViewById<TextView>(R.id.bookno).text = book.bookNo
-            view!!.findViewById<TextView>(R.id.call_no).text = book.callNo
-            view!!.findViewById<TextView>(R.id.title).text = book.name
-            view!!.findViewById<TextView>(R.id.author).text = book.author
-            view!!.findViewById<TextView>(R.id.isbn).text = book.isbn
-            view!!.findViewById<TextView>(R.id.publisher).text = book.publisher
-            view!!.findViewById<TextView>(R.id.category).text = book.category
-            view!!.findViewById<TextView>(R.id.location).text = book.location
+            view!!.findViewById<TextView>(R.id.bookno).text = utf(book.bookNo)
+            view!!.findViewById<TextView>(R.id.call_no).text = utf(book.callNo)
+            view!!.findViewById<TextView>(R.id.title).text = utf(book.name)
+            view!!.findViewById<TextView>(R.id.author).text = utf(book.author)
+            view!!.findViewById<TextView>(R.id.isbn).text = utf(book.isbn)
+            view!!.findViewById<TextView>(R.id.publisher).text = utf(book.publisher)
+            view!!.findViewById<TextView>(R.id.category).text = utf(book.category)
+            view!!.findViewById<TextView>(R.id.location).text = utf(book.location)
 
             view!!.findViewById<TextView>(R.id.status).text = StatusConverter.getStatusById(book.status)
 

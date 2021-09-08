@@ -7,7 +7,6 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseApp
@@ -55,6 +54,24 @@ class MainActivity : NewMainActivity() {
 
                     //Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show()
                 })
+
+             /*
+            FirebaseInstanceId.getInstance().instanceId
+                .addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w("TAG", "getInstanceId failed", task.exception)
+                        return@OnCompleteListener
+                    }
+
+                    // Get new Instance ID token
+                    val token = task.result.token
+
+                    SharedPrefsUtils.setStringPreference(MainActivity.mContext, "token", token)
+
+                    //RetrofitClient.getSPGetWebService().addToken(Hawk.get(InternalStorage.Setting.UNIT_ID, ""),msg).enqueue(new AddTokenCallback());
+                    //Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                    //((TextView)findViewById(R.id.informationTextView)).setText(msg);
+                })*/
         } else {
             Log.d("TAG", SharedPrefsUtils.getStringPreference(MainActivity.mContext, "token") + "")
 
@@ -68,7 +85,7 @@ class MainActivity : NewMainActivity() {
             var d = SharedPrefsUtils.getStringPreference(MainActivity.mContext, "defaultlocale")
 
             //if(d != l) {
-            if(l == null) {
+            if (l == null) {
                 l = "en-us"
             }
 

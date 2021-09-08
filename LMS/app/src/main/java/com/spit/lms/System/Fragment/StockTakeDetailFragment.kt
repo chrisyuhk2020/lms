@@ -126,6 +126,10 @@ class StockTakeDetailFragment : BaseFragment () {
             override fun onTabSelected(p0: TabLayout.Tab?) {
                 selectedPos = p0!!.position
                 setupListView(getData())
+                if(bookListAdapter != null && bookListAdapter!!.count > 0) {
+                    listview.smoothScrollBy(0, 0);
+                    listview.setSelection(0)
+                }
                 BaseUtils.hideKeyboard(view)
             }
         })
@@ -423,14 +427,17 @@ class StockTakeDetailFragment : BaseFragment () {
 
 
         if (selectedPos == 1) {
+            instockList.sort();
             return filter(filterText, instockList);
         }
 
         if (selectedPos == 2) {
+            missingList.sort();
             return filter(filterText, missingList);
         }
 
         if (selectedPos == 3) {
+            abnormalList.sort();
             return filter(filterText, abnormalList);
         }
 
