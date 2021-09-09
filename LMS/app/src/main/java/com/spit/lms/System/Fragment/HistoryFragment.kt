@@ -1,6 +1,5 @@
 package com.spit.lms.System.Fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -169,7 +168,7 @@ class HistoryFragment : BaseFragment() {
                 view!!.findViewById<TextView>(R.id.title).text = data.name
 
                 view!!.findViewById<TextView>(R.id.borrow_date).text = data.borrowDate
-                view!!.findViewById<TextView>(R.id.return_date).text = data.expirationDate
+                view!!.findViewById<TextView>(R.id.return_date).text = data.returnDate
 
 
                 var status = "";
@@ -194,7 +193,7 @@ class HistoryFragment : BaseFragment() {
                     (view!!.findViewById<TextView>(R.id.borrow_date).parent as LinearLayout).visibility = View.VISIBLE
                 }
 
-                if(data.expirationDate == null || data.expirationDate.isEmpty()){
+                if(data.returnDate == null || data.returnDate.isEmpty()){
                     (view!!.findViewById<TextView>(R.id.return_date).parent as LinearLayout).visibility = View.GONE
                 } else {
                     (view!!.findViewById<TextView>(R.id.return_date).parent as LinearLayout).visibility = View.VISIBLE

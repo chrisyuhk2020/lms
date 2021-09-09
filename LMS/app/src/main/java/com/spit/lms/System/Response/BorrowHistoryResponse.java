@@ -5,7 +5,7 @@ public class BorrowHistoryResponse {
     private String callNo;
     private String name;
     private String borrowDate;
-    private String expirationDate;
+    private String returnDate;
     private String rono;
 
     private String renew;
@@ -42,12 +42,12 @@ public class BorrowHistoryResponse {
         this.borrowDate = borrowDate;
     }
 
-    public String getExpirationDate() {
-        return expirationDate;
+    public String getReturnDate() {
+        return returnDate;
     }
 
     public void setExpirationDate(String expirationDate) {
-        this.expirationDate = expirationDate;
+        this.returnDate = returnDate;
     }
 
     public String getRono() {
