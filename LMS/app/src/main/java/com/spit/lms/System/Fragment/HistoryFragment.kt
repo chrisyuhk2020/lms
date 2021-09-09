@@ -199,8 +199,8 @@ class HistoryFragment : BaseFragment() {
                     (view!!.findViewById<TextView>(R.id.return_date).parent as LinearLayout).visibility = View.VISIBLE
                 }
 
-                Glide.with(MainActivity.mContext).load("").into(view!!.findViewById<ImageView>(R.id.image))
-                Glide.with(MainActivity.mContext).load(R.drawable.login_frontal_bg).into(view!!.findViewById<ImageView>(R.id.image))
+                //Glide.with(MainActivity.mContext).load("").into(view!!.findViewById<ImageView>(R.id.image))
+                //Glide.with(MainActivity.mContext).load(R.drawable.login_frontal_bg).into(view!!.findViewById<ImageView>(R.id.image))
 
             } else {
                 var data = getItem(position) as ReservedHistoryResponse
@@ -211,8 +211,8 @@ class HistoryFragment : BaseFragment() {
 
                 view!!.findViewById<TextView>(R.id.appointment_date).text = data.waitingDate
 
-                Glide.with(MainActivity.mContext).load("").into(view!!.findViewById<ImageView>(R.id.image))
-                Glide.with(MainActivity.mContext).load(R.drawable.login_frontal_bg).into(view!!.findViewById<ImageView>(R.id.image))
+                //Glide.with(MainActivity.mContext).load("").into(view!!.findViewById<ImageView>(R.id.image))
+                //Glide.with(MainActivity.mContext).load(R.drawable.login_frontal_bg).into(view!!.findViewById<ImageView>(R.id.image))
 
             }
 
