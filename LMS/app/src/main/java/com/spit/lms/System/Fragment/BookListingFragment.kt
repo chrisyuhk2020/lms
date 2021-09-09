@@ -21,12 +21,15 @@ import com.spit.lms.System.Base.BaseUtils.utf
 import com.spit.lms.System.Base.SharedPrefsUtils
 import com.spit.lms.System.Base.StatusConverter
 import com.spit.lms.System.Database.QueryHistory
+import com.spit.lms.System.Event.FilteringCellClickEvent
 import com.spit.lms.System.Event.ResponseEvent
 import com.spit.lms.System.Model.*
+import com.spit.lms.System.Response.AdvancedCount
 import com.spit.lms.System.View.FilteringCell
 import io.realm.Realm
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.lang.Exception
 import kotlin.collections.ArrayList
 
 class BookListingFragment : BaseFragment() {
@@ -36,10 +39,24 @@ class BookListingFragment : BaseFragment() {
     public var isLast: Boolean = false
     public var adapter : BookListingAdapter? = null
 
+    public var selectedPublisherList = ArrayList<String>();
+    public var selectedAuthorList = ArrayList<String>();
+    public var selectedCategoryList = ArrayList<String>();
+    public var selectedLocationList = ArrayList<String>();
+    var search = false
+
     companion object {
         var isAPICalled = false
         //var page = 0
         var query = ""
+    }
+
+    fun hasAdvancedParaemeter() : Boolean {
+        Log.i("data", "Data " +selectedPublisherList.size + " " + selectedAuthorList.size + " " + selectedCategoryList.size + " " + selectedLocationList.size)
+        if(selectedPublisherList.size > 0 || selectedAuthorList.size > 0 || selectedCategoryList.size > 0 || selectedLocationList.size > 0) {
+            return true;
+        }
+        return false;
     }
 
     override fun onCreate(bundle: Bundle?) {
@@ -58,7 +75,7 @@ class BookListingFragment : BaseFragment() {
 
         view.findViewById<BottomNavigationView>(R.id.bottom_navigation).setOnNavigationItemSelectedListener(SharedBottomHandler())
         view.findViewById<ImageView>(R.id.search).setOnClickListener {
-/*
+
             view.findViewById<FlowLayout>(R.id.category_wrapper).visibility = View.GONE
             view.findViewById<FlowLayout>(R.id.location_wrapper).visibility = View.GONE
             view.findViewById<FlowLayout>(R.id.author_wrapper).visibility = View.GONE
@@ -66,12 +83,12 @@ class BookListingFragment : BaseFragment() {
 
             showAdvancedSearchingPanel()
 
- */
-            (MainActivity.mContext as MainActivity).replaceFragment(SearchFragment())
+
+            //(MainActivity.mContext as MainActivity).replaceFragment(SearchFragment())
         }
 
 
-        if(query.length > 0) {
+        if(search) {
             view.findViewById<ImageView>(R.id.back).visibility = View.VISIBLE
             view.findViewById<ImageView>(R.id.search).visibility = View.INVISIBLE
 
@@ -90,37 +107,58 @@ class BookListingFragment : BaseFragment() {
 
 
         if(NewMainActivity.isConnected()) {
+            Log.i("query", "query " + query + "  "+ selectedPublisherList + " " + selectedAuthorList + " " + selectedCategoryList + " " + selectedLocationList);
+
+            if(hasAdvancedParaemeter()) {
+
+                APIUtils.getArrayList(
+                        SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/advancedSearch",
+                        listOf(
+                                "page" to "0",
+                                "query" to query,
+                                "publisher" to printString(selectedPublisherList),
+                                "author" to printString(selectedAuthorList),
+                                "category" to printString(selectedCategoryList),
+                                "location" to printString(selectedLocationList),
+                        ),
+                        MainActivity.mContext, Book::class.java
+                )
+            } else {
+                APIUtils.getArrayList(
+                        SharedPrefsUtils.getStringPreference(
+                                MainActivity.mContext,
+                                "BASE_URL"
+                        ) + "/search",
+                        listOf(
+                                "page" to "0",
+                                "query" to query
+                        ),
+                        MainActivity.mContext, Book::class.java
+                )
+            }
+
             APIUtils.getArrayList(
-                SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/search",
-                listOf(
-                    "page" to "0",
-                    "query" to query
-                ),
-                MainActivity.mContext, Book::class.java
-            )
-            /*
-            APIUtils.getArrayList(
-                SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/getCategory",
-                listOf(),
-                MainActivity.mContext, Category::class.java
+                    SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/getCategory",
+                    listOf(),
+                    MainActivity.mContext, Category::class.java
             )
 
             APIUtils.getArrayList(
-                SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/getLocation",
-                listOf(),
-                MainActivity.mContext, Location::class.java
+                    SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/getLocation",
+                    listOf(),
+                    MainActivity.mContext, Location::class.java
             )
             APIUtils.getArrayList(
-                SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/getPublisher",
-                listOf(),
-                MainActivity.mContext, Publisher::class.java
+                    SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/getPublisher",
+                    listOf(),
+                    MainActivity.mContext, Publisher::class.java
             )
 
             APIUtils.getArrayList(
-                SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/getAuthor",
-                listOf(),
-                MainActivity.mContext, Author::class.java
-            )*/
+                    SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/getAuthor",
+                    listOf(),
+                    MainActivity.mContext, Author::class.java
+            )
         } else {
             var source = Realm.getDefaultInstance().where(QueryHistory::class.java).equalTo("query", query).equalTo("userid", SharedPrefsUtils.getStringPreference( MainActivity.mContext,"USERID")).findAll()
             listView.adapter = QueryHistoryBookListingAdapter(source)
@@ -145,14 +183,14 @@ class BookListingFragment : BaseFragment() {
         }
         return view
     }
-    class QueryHistoryBookListingAdapter(val bookList: MutableList<QueryHistory>) : BaseAdapter() {
+    inner class QueryHistoryBookListingAdapter(val bookList: MutableList<QueryHistory>) : BaseAdapter() {
         public var page = 0
         public var adapterQuery = ""
 
         override fun getCount(): Int {
             var extraCount = 0;
 
-            if (adapterQuery.length > 0 && bookList.size % 50 == 0 && bookList.size > 0) {
+            if (search && bookList.size % 50 == 0 && bookList.size > 0) {
                 extraCount += 1;
             } else {
                 extraCount += 0;
@@ -223,15 +261,18 @@ class BookListingFragment : BaseFragment() {
 
                 if(!isAPICalled) {
                     //page = page + 1
-
                     APIUtils.getArrayList(
-                        SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/search",
-                        listOf(
-                            "page" to "" + page,
-                            "query" to adapterQuery
-                        ),
-                        MainActivity.mContext, Book::class.java
+                            SharedPrefsUtils.getStringPreference(
+                                    MainActivity.mContext,
+                                    "BASE_URL"
+                            ) + "/search",
+                            listOf(
+                                    "page" to "" + page,
+                                    "query" to adapterQuery
+                            ),
+                            MainActivity.mContext, Book::class.java
                     )
+
                 }
 
             } else {
@@ -265,7 +306,7 @@ class BookListingFragment : BaseFragment() {
         }
     }
 
-    class BookListingAdapter(val bookList: MutableList<Book>) : BaseAdapter() {
+    inner class BookListingAdapter(val bookList: MutableList<Book>) : BaseAdapter() {
         public var page = 0
         public var adapterQuery = ""
 
@@ -344,14 +385,31 @@ class BookListingFragment : BaseFragment() {
                 if(!isAPICalled) {
                     //page = page + 1
 
-                    APIUtils.getArrayList(
-                        SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/search",
-                        listOf(
-                            "page" to "" + page,
-                            "query" to adapterQuery
-                        ),
-                        MainActivity.mContext, Book::class.java
-                    )
+                    if(this@BookListingFragment.hasAdvancedParaemeter()) {
+
+                        APIUtils.getArrayList(
+                                SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/advancedSearch",
+                                listOf(
+                                        "page" to "" + page,
+                                        "query" to query,
+                                        "publisher" to printString(selectedPublisherList),
+                                        "author" to printString(selectedAuthorList),
+                                        "category" to printString(selectedCategoryList),
+                                        "location" to printString(selectedLocationList),
+                                ),
+                                MainActivity.mContext, Book::class.java
+                        )
+                    } else {
+
+                        APIUtils.getArrayList(
+                                SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/search",
+                                listOf(
+                                        "page" to "" + page,
+                                        "query" to adapterQuery
+                                ),
+                                MainActivity.mContext, Book::class.java
+                        )
+                    }
                 }
 
             } else {
@@ -393,10 +451,79 @@ class BookListingFragment : BaseFragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: FilteringCellClickEvent?) {
+        Log.i("FilteringCellClickEvent", "FilteringCellClickEvent ");
+
+        if(event!!.type.equals("category")) {
+            setList(selectedCategoryList, event.isSelected, event.data)
+        } else if(event!!.type.equals("location")) {
+            setList(selectedLocationList, event.isSelected, event.data)
+        } else if(event!!.type.equals("author")) {
+            setList(selectedAuthorList, event.isSelected, event.data)
+        } else if(event!!.type.equals("publisher")) {
+            setList(selectedPublisherList, event.isSelected, event.data)
+        }
+        callCountAPI()
+    }
+
+
+    fun setList(arrayList : ArrayList<String>, selected : Boolean, data : String) {
+        try {
+            if (selected) {
+                arrayList.add(data)
+            } else {
+                arrayList.remove(data)
+            }
+        } catch (e :Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun printString(selectedPublisherList : ArrayList<String>) : String {
+        var pl = ""
+        for(p in selectedPublisherList) {
+            pl = pl + p + ","
+        }
+
+        if(pl.count() > 0) {
+            pl = pl.substring(0, pl.count() - 1)
+        }
+
+        return pl
+    }
+
+    fun callCountAPI() {
+        /*
+            public var selectedPublisherList = ArrayList<String>();
+    public var selectedAuthorList = ArrayList<String>();
+    public var selectedCategoryList = ArrayList<String>();
+    public var selectedLocationList = ArrayList<String>();
+
+         */
+
+        APIUtils.get(
+                SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/countSearch",
+                listOf(
+                        "page" to "0",
+                        "query" to query,
+                        "publisher" to printString(selectedPublisherList),
+                        "author" to printString(selectedAuthorList),
+                        "category" to printString(selectedCategoryList),
+                        "location" to printString(selectedLocationList),
+                ),
+                MainActivity.mContext, AdvancedCount::class.java
+        )
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: ResponseEvent?) {
         Log.i("url", "ResponseEvent url "+  event!!.url)
+        if(event!!.url.contains("ountSearch")) {
+            var acount = (event.response as AdvancedCount).count
 
-        if(event!!.url.contains("getCategory")) {
+            view.findViewById<TextView>(R.id.search_panel_search).text = MainActivity.mContext.getString(R.string.search) + "(" + acount + ")"
+
+        } else if(event!!.url.contains("getCategory")) {
             var list = (event.response as List<Category>)
 
             Realm.getDefaultInstance().beginTransaction()
@@ -407,9 +534,7 @@ class BookListingFragment : BaseFragment() {
                 }
             }
             Realm.getDefaultInstance().commitTransaction()
-        }
-
-        if(event!!.url.contains("getLocation")) {
+        } else if(event!!.url.contains("getLocation")) {
             var list = (event.response as List<Location>)
             Realm.getDefaultInstance().beginTransaction()
             Realm.getDefaultInstance().where(Location::class.java).findAll().deleteAllFromRealm()
@@ -419,9 +544,7 @@ class BookListingFragment : BaseFragment() {
                 }
             }
             Realm.getDefaultInstance().commitTransaction()
-        }
-
-        if(event!!.url.contains("getAuthor")) {
+        } else if(event!!.url.contains("getAuthor")) {
             var list = (event.response as List<Author>)
             Realm.getDefaultInstance().beginTransaction()
             Realm.getDefaultInstance().where(Author::class.java).findAll().deleteAllFromRealm()
@@ -429,9 +552,7 @@ class BookListingFragment : BaseFragment() {
                 Realm.getDefaultInstance().insert(l)
             }
             Realm.getDefaultInstance().commitTransaction()
-        }
-
-        if(event!!.url.contains("getPublisher")) {
+        } else if(event!!.url.contains("getPublisher")) {
             var list = (event.response as List<Publisher>)
             Realm.getDefaultInstance().beginTransaction()
             Realm.getDefaultInstance().where(Publisher::class.java).findAll().deleteAllFromRealm()
@@ -439,10 +560,8 @@ class BookListingFragment : BaseFragment() {
                 Realm.getDefaultInstance().insert(l)
             }
             Realm.getDefaultInstance().commitTransaction()
-        }
-
-        if(event!!.url.contains("search")){
-        //if((event!!.response as ArrayList<Book>).size > 0) {
+        } else if(event!!.url.contains("advancedSearch") || event!!.url.contains("search")) {
+            //if((event!!.response as ArrayList<Book>).size > 0) {
             isAPICalled = false
 
             if (adapter == null) {
@@ -485,6 +604,25 @@ class BookListingFragment : BaseFragment() {
     }
 
     fun showAdvancedSearchingPanel() {
+        Glide.with(MainActivity.mContext).load(R.drawable.expand_less).into(view.findViewById(R.id.category_expand))
+        Glide.with(MainActivity.mContext).load(R.drawable.expand_less).into(view.findViewById(R.id.location_expand))
+        Glide.with(MainActivity.mContext).load(R.drawable.expand_less).into(view.findViewById(R.id.author_expand))
+        Glide.with(MainActivity.mContext).load(R.drawable.expand_less).into(view.findViewById(R.id.publisher_expand))
+
+        APIUtils.get(
+                SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/countSearch",
+                listOf(
+                        "page" to "0",
+                        "query" to query,
+                        "publisher" to printString(selectedPublisherList),
+                        "author" to printString(selectedAuthorList),
+                        "category" to printString(selectedCategoryList),
+                        "location" to printString(selectedLocationList),
+                ),
+                MainActivity.mContext, AdvancedCount::class.java
+        )
+
+        (view.findViewById(R.id.advanced_search_panel_keyword) as EditText).setText("")//.toString()
 
         view.findViewById<View>(R.id.advanced_search_panel_background).setOnClickListener {
             view.findViewById<LinearLayout>(R.id.advanced_search_panel).visibility = View.GONE
@@ -496,33 +634,40 @@ class BookListingFragment : BaseFragment() {
 
             if(view.findViewById<FlowLayout>(R.id.category_wrapper).visibility == View.VISIBLE) {
                 view.findViewById<FlowLayout>(R.id.category_wrapper).visibility = View.GONE
-
+                Glide.with(MainActivity.mContext).load(R.drawable.expand_less).into(view.findViewById(R.id.category_expand))
             } else {
                 view.findViewById<FlowLayout>(R.id.category_wrapper).visibility = View.VISIBLE
+                Glide.with(MainActivity.mContext).load(R.drawable.expand_more).into(view.findViewById(R.id.category_expand))
             }
         }
 
         view.findViewById<LinearLayout>(R.id.location_header).setOnClickListener {
             if(view.findViewById<FlowLayout>(R.id.location_wrapper).visibility == View.VISIBLE) {
                 view.findViewById<FlowLayout>(R.id.location_wrapper).visibility = View.GONE
+                Glide.with(MainActivity.mContext).load(R.drawable.expand_less).into(view.findViewById(R.id.location_expand))
             } else {
                 view.findViewById<FlowLayout>(R.id.location_wrapper).visibility = View.VISIBLE
+                Glide.with(MainActivity.mContext).load(R.drawable.expand_more).into(view.findViewById(R.id.location_expand))
             }
         }
 
         view.findViewById<LinearLayout>(R.id.author_header).setOnClickListener {
             if(view.findViewById<FlowLayout>(R.id.author_wrapper).visibility == View.VISIBLE) {
                 view.findViewById<FlowLayout>(R.id.author_wrapper).visibility = View.GONE
+                Glide.with(MainActivity.mContext).load(R.drawable.expand_less).into(view.findViewById(R.id.author_expand))
             } else {
                 view.findViewById<FlowLayout>(R.id.author_wrapper).visibility = View.VISIBLE
+                Glide.with(MainActivity.mContext).load(R.drawable.expand_more).into(view.findViewById(R.id.author_expand))
             }
         }
 
         view.findViewById<LinearLayout>(R.id.publisher_header).setOnClickListener {
             if(view.findViewById<FlowLayout>(R.id.publisher_wrapper).visibility == View.VISIBLE) {
                 view.findViewById<FlowLayout>(R.id.publisher_wrapper).visibility = View.GONE
+                Glide.with(MainActivity.mContext).load(R.drawable.expand_less).into(view.findViewById(R.id.publisher_expand))
             } else {
                 view.findViewById<FlowLayout>(R.id.publisher_wrapper).visibility = View.VISIBLE
+                Glide.with(MainActivity.mContext).load(R.drawable.expand_more).into(view.findViewById(R.id.publisher_expand))
             }
         }
 
@@ -531,37 +676,51 @@ class BookListingFragment : BaseFragment() {
         var categorySource = Realm.getDefaultInstance().where(Category::class.java).findAll()
         view.findViewById<FlowLayout>(R.id.category_wrapper).removeAllViews()
         for(l in categorySource) {
-            view.findViewById<FlowLayout>(R.id.category_wrapper).addView(FilteringCell(MainActivity.mContext,l.categoryName))
+            view.findViewById<FlowLayout>(R.id.category_wrapper).addView(FilteringCell(MainActivity.mContext,Realm.getDefaultInstance().copyFromRealm(l), "category"))
         }
 
         var locationSource = Realm.getDefaultInstance().where(Location::class.java).findAll()
         view.findViewById<FlowLayout>(R.id.location_wrapper).removeAllViews()
         for(l in locationSource) {
-            view.findViewById<FlowLayout>(R.id.location_wrapper).addView(FilteringCell(MainActivity.mContext,l.locationName))
+            view.findViewById<FlowLayout>(R.id.location_wrapper).addView(FilteringCell(MainActivity.mContext,Realm.getDefaultInstance().copyFromRealm(l), "location"))
         }
 
         var authorSource = Realm.getDefaultInstance().where(Author::class.java).findAll()
         view.findViewById<FlowLayout>(R.id.author_wrapper).removeAllViews()
         for(l in authorSource) {
-            view.findViewById<FlowLayout>(R.id.author_wrapper).addView(FilteringCell(MainActivity.mContext,l.name))
+            view.findViewById<FlowLayout>(R.id.author_wrapper).addView(FilteringCell(MainActivity.mContext,l.name, "author"))
         }
 
         var publisherSource = Realm.getDefaultInstance().where(Publisher::class.java).findAll()
         view.findViewById<FlowLayout>(R.id.publisher_wrapper).removeAllViews()
         for(l in publisherSource) {
-            view.findViewById<FlowLayout>(R.id.publisher_wrapper).addView(FilteringCell(MainActivity.mContext,l.name))
+            view.findViewById<FlowLayout>(R.id.publisher_wrapper).addView(FilteringCell(MainActivity.mContext,l.name, "publisher"))
         }
 
         view.findViewById<TextView>(R.id.search_panel_reset).setOnClickListener {
+            selectedPublisherList.clear()
+            selectedLocationList.clear()
+            selectedCategoryList.clear()
+            selectedAuthorList.clear()
+
             showAdvancedSearchingPanel()
         }
 
         view.findViewById<TextView>(R.id.search_panel_search).setOnClickListener {
-            var v = view.findViewById<FlowLayout>(R.id.category_wrapper)
+            var query = (view.findViewById(R.id.advanced_search_panel_keyword) as EditText).text.toString()
 
-            for(c in v.children) {
-               Log.i ("data", "data " + (c as FilteringCell).data);
-            }
+            BookListingFragment.query = query
+            Log.i("query", "query " + BookListingFragment.query + " " + query)
+
+            var v = BookListingFragment()
+            v.selectedAuthorList = selectedAuthorList
+            v.selectedCategoryList = selectedCategoryList
+            v.selectedLocationList = selectedLocationList
+            v.selectedPublisherList = selectedPublisherList
+            v.search = true
+
+            (MainActivity.mContext as MainActivity).replaceFragment(v)
+
         }
     }
 }
