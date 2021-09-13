@@ -1,11 +1,13 @@
 package com.spit.lms.System.Fragment
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
@@ -201,6 +203,15 @@ class HistoryFragment : BaseFragment() {
                     (view!!.findViewById<TextView>(R.id.return_date).parent as LinearLayout).visibility = View.VISIBLE
                 }
 
+                if(data.renew) {
+                    view.setOnClickListener {
+                        showDialog();
+                    }
+                } else {
+                    view.setOnClickListener {
+
+                    }
+                }
                 //Glide.with(MainActivity.mContext).load("").into(view!!.findViewById<ImageView>(R.id.image))
                 //Glide.with(MainActivity.mContext).load(R.drawable.login_frontal_bg).into(view!!.findViewById<ImageView>(R.id.image))
 
@@ -221,4 +232,47 @@ class HistoryFragment : BaseFragment() {
             return view!!;
         }
     }
+
+    private fun showDialog(){
+        // Late initialize an alert dialog object
+        lateinit var dialog: AlertDialog
+
+
+        // Initialize a new instance of alert dialog builder object
+        val builder = AlertDialog.Builder(MainActivity.mContext)
+
+        // Set a title for alert dialog
+        builder.setTitle("Title of AlertDialog.")
+
+        // Set a message for alert dialog
+        builder.setMessage("This is a sample message of AlertDialog.")
+
+
+        // On click listener for dialog buttons
+        val dialogClickListener = DialogInterface.OnClickListener{ _, which ->
+            when(which){
+                DialogInterface.BUTTON_POSITIVE -> Log.i("data","Data");//toast("Positive/Yes button clicked.")
+                DialogInterface.BUTTON_NEGATIVE -> Log.i("data","Data");//toast("Negative/No button clicked.")
+                DialogInterface.BUTTON_NEUTRAL -> Log.i("data","Data");//toast("Neutral/Cancel button clicked.")
+            }
+        }
+
+
+        // Set the alert dialog positive/yes button
+        builder.setPositiveButton("YES",dialogClickListener)
+
+        // Set the alert dialog negative/no button
+        //builder.setNegativeButton("NO",dialogClickListener)
+
+        // Set the alert dialog neutral/cancel button
+        builder.setNeutralButton("CANCEL",dialogClickListener)
+
+
+        // Initialize the AlertDialog using builder object
+        dialog = builder.create()
+
+        // Finally, display the alert dialog
+        dialog.show()
+    }
+
 }
