@@ -50,7 +50,7 @@
                     <ImageView
                         android:id="@+id/book_detail_image"
                         android:layout_margin="10dp"
-                        android:scaleType="centerCrop"
+                        android:scaleType="centerInside"
                         android:layout_width="125dp"
                         android:layout_height="167dp" />
 
