@@ -227,7 +227,7 @@ public class NewMainActivity extends AppCompatActivity {
     }
 
     private void conn() {
-
+/*
         try {
 
             disconn();
@@ -249,16 +249,17 @@ public class NewMainActivity extends AppCompatActivity {
 
         }catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     private void disconn() {
+        /*
         if(MyUtil.reader != null && MyUtil.reader.getIsConnected()){
             MyUtil.reader.OnInventoryReceived.removeEvent(inventoryReceived);
             MyUtil.reader.Disconnect();
             setCtrlEnable("断开");
         }
-        MyUtil.reader = null;
+        MyUtil.reader = null;*/
     }
 
     public void clean() {
