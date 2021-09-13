@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Library Management System</string>
+    <string name="app_name">Library MS(User Ver)</string>
     <string name="input_username">Enter Username</string>
     <string name="input_password">Enter Password</string>
     <string name="empty_username">Empty Username</string>

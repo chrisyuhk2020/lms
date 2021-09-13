@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">图书管理系统</string>
+    <string name="app_name">图书管理系统(用户版)</string>
     <string name="input_username">请输入登录帐号</string>
     <string name="input_password">请输入登录密码</string>
     <string name="empty_username">用户名称置空</string>

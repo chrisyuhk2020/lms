@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">圖書管理系統</string>
+    <string name="app_name">圖書管理系統(用戶版)</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
 
     <string name="input_username">請輸入登錄帳號</string>
