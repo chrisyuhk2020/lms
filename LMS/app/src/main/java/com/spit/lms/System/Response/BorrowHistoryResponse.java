@@ -8,8 +8,8 @@ public class BorrowHistoryResponse {
     private String returnDate;
     private String rono;
 
-    private String renew;
-    private String waitingID;
+    private boolean renew;
+    private boolean waitingID;
     public String getBookNo() {
         return bookNo;
     }
@@ -58,19 +58,19 @@ public class BorrowHistoryResponse {
         this.rono = rono;
     }
 
-    public String getRenew() {
+    public boolean getRenew() {
         return renew;
     }
 
-    public void setRenew(String renew) {
+    public void setRenew(boolean renew) {
         this.renew = renew;
     }
 
-    public String getWaitingID() {
+    public boolean getWaitingID() {
         return waitingID;
     }
 
-    public void setWaitingID(String waitingID) {
+    public void setWaitingID(boolean waitingID) {
         this.waitingID = waitingID;
     }
 

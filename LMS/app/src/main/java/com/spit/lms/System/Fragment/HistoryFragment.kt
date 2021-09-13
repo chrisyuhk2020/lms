@@ -45,6 +45,8 @@ class HistoryFragment : BaseFragment() {
             ), MainActivity.mContext, UserDetailResponse::class.java
         )
 
+        Log.i("userid", "userid userid " + SharedPrefsUtils.getStringPreference(MainActivity.mContext, "USERID"));
+
         APIUtils.getArrayList(
             SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/borrowHistory",
             listOf(
@@ -172,11 +174,11 @@ class HistoryFragment : BaseFragment() {
 
 
                 var status = "";
-                if(data.renew.equals("1")) {
+                if(data.renew){//.equals("1")) {
                     status = MainActivity.mContext.getString(R.string.renew)
                 }
 
-                if(data.waitingID.equals("1")) {
+                if(data.waitingID) {
                     status += " " + MainActivity.mContext.getString(R.string.reserved_by_others)
                 }
 
