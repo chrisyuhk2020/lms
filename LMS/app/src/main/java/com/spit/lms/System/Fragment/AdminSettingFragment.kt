@@ -173,13 +173,18 @@ class  AdminSettingFragment : BaseFragment() {
             BaseUtils.hideKeyboard(view)
             view.findViewById<LinearLayout>(R.id.change_password_panel).visibility = View.GONE
 
+            Log.i("user","user " + SharedPrefsUtils.getStringPreference(
+                    MainActivity.mContext,
+                    "USERID"
+            )  + " " + (view.findViewById<EditText>(R.id.new_password).text.toString()).trim()
+            );
 
             APIUtils.get(
                 SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/changePassword",
                 listOf("userid" to SharedPrefsUtils.getStringPreference(
                     MainActivity.mContext,
                     "USERID"
-                ), "password" to Encryption.encrypt(view.findViewById<EditText>(R.id.new_password).text.toString()).trim() ),
+                ), "password" to (view.findViewById<EditText>(R.id.new_password).text.toString()).trim() ),
                 MainActivity.mContext, MessageResponse::class.java
             )
         }

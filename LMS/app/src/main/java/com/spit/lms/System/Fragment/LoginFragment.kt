@@ -98,7 +98,7 @@ class LoginFragment : BaseFragment() {
 
             if(NewMainActivity.isConnected()) {
                 APIUtils.get(SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/userAppLogin",
-                        listOf("username" to username.text.toString(), "password" to Encryption.encrypt(password.text.toString())), MainActivity.mContext, LoginResponse::class.java
+                        listOf("username" to username.text.toString(), "password" to (password.text.toString())), MainActivity.mContext, LoginResponse::class.java
                 )
             } else {
                 /*
