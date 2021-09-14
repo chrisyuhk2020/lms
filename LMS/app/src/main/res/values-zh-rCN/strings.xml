@@ -101,6 +101,14 @@
     <string name="reach_reserved">书籍已被预约</string>
     <string name="reach_borrowed">书籍已被借出</string>
 
-    <string name="renew">续借</string>
+    <string name="renew">可续借</string>
     <string name="reserved_by_others">被预约</string>
+
+    <string name="go_renew">续借</string>
+    <string name="confirm_renew_book">确认续借这本书?</string>
+
+    <string name="renew_success">续借成功</string>
+    <string name="renew_partial_success">部分续借成功</string>
+    <string name="renew_failure">续借失败</string>
+
 </resources>

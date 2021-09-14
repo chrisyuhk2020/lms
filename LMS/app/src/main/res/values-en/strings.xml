@@ -97,7 +97,14 @@
     <string name="reach_reserved">This book is reserved</string>
     <string name="reach_borrowed">This book is borrowed</string>
 
-    <string name="renew">Renew</string>
+    <string name="renew">Renewable</string>
     <string name="reserved_by_others">Reserved</string>
+
+    <string name="go_renew">Renew</string>
+    <string name="confirm_renew_book">Confirm renew this book?</string>
+
+    <string name="renew_success">Renew success</string>
+    <string name="renew_partial_success">Renew success partially</string>
+    <string name="renew_failure">Renew Failure</string>
 
 </resources>

@@ -130,7 +130,14 @@
     <string name="reach_borrowed">書籍已被借出</string>
 
 
-    <string name="renew">續借</string>
+    <string name="renew">可續借</string>
     <string name="reserved_by_others">被預約</string>
+
+    <string name="go_renew">續借</string>
+    <string name="confirm_renew_book">確認續借這本書?</string>
+
+    <string name="renew_success">續借成功</string>
+    <string name="renew_partial_success">部分續借成功</string>
+    <string name="renew_failure">續借失敗</string>
 
 </resources>

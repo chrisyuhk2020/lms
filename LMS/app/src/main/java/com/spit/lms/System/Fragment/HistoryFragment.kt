@@ -16,10 +16,13 @@ import com.spit.lms.Network.APIUtils
 import com.spit.lms.R
 import com.spit.lms.System.Base.BaseFragment
 import com.spit.lms.System.Base.SharedPrefsUtils
+import com.spit.lms.System.Event.DialogEvent
 import com.spit.lms.System.Event.ResponseEvent
 import com.spit.lms.System.Response.BorrowHistoryResponse
+import com.spit.lms.System.Response.RenewBookResponse
 import com.spit.lms.System.Response.ReservedHistoryResponse
 import com.spit.lms.System.Response.UserDetailResponse
+import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
@@ -111,19 +114,42 @@ class HistoryFragment : BaseFragment() {
             view.findViewById<TextView>(R.id.email).text = user.email
             Glide.with(MainActivity.mContext).load(user.img).error(R.drawable.account)
                 .into(view.findViewById<ImageView>(R.id.image))
-        }
-
-        if (event!!.url.contains("borrowHistory")) {
+        } else if (event!!.url.contains("borrowHistory")) {
             borrowHistoryResponse = event!!.response as ArrayList<BorrowHistoryResponse>
             if((view.findViewById<TabLayout>(R.id.tab_layout)).selectedTabPosition == 0){
                 listview.adapter = ListAdapter(0)
             }
-        }
-
-        if (event!!.url.contains("reservedHistory")) {
+        } else if (event!!.url.contains("reservedHistory")) {
             reservedHistoryResponse = event!!.response as ArrayList<ReservedHistoryResponse>
             if((view.findViewById<TabLayout>(R.id.tab_layout)).selectedTabPosition == 1) {
                 listview.adapter = ListAdapter(1)
+            }
+        } else if(event.url.contains("renewBook")){
+            var response = event!!.response as RenewBookResponse
+
+            if(response != null) {
+                if(response.status.equals("0")) {
+                    EventBus.getDefault().post(DialogEvent(MainActivity.mContext.getString(R.string.app_name), MainActivity.mContext.getString(R.string.renew_failure) ));
+                } else if(response.status.equals("1")) {
+                    EventBus.getDefault().post(DialogEvent(MainActivity.mContext.getString(R.string.app_name), MainActivity.mContext.getString(R.string.renew_success) ));
+
+                    APIUtils.getArrayList(
+                        SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/borrowHistory",
+                        listOf(
+                            "userid" to SharedPrefsUtils.getStringPreference(MainActivity.mContext, "USERID")
+                        ), MainActivity.mContext, BorrowHistoryResponse::class.java
+                    )
+
+                } else if(response.status.equals("2")) {
+                    EventBus.getDefault().post(DialogEvent(MainActivity.mContext.getString(R.string.app_name), MainActivity.mContext.getString(R.string.renew_partial_success)));
+
+                    APIUtils.getArrayList(
+                        SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/borrowHistory",
+                        listOf(
+                            "userid" to SharedPrefsUtils.getStringPreference(MainActivity.mContext, "USERID")
+                        ), MainActivity.mContext, BorrowHistoryResponse::class.java
+                    )
+                }
             }
         }
     }
@@ -205,7 +231,7 @@ class HistoryFragment : BaseFragment() {
 
                 if(data.renew) {
                     view.setOnClickListener {
-                        showDialog();
+                        showDialog(position);
                     }
                 } else {
                     view.setOnClickListener {
@@ -231,48 +257,50 @@ class HistoryFragment : BaseFragment() {
 
             return view!!;
         }
-    }
 
-    private fun showDialog(){
-        // Late initialize an alert dialog object
-        lateinit var dialog: AlertDialog
+        private fun showDialog(position: Int){
+            lateinit var dialog: AlertDialog
 
+            val builder = AlertDialog.Builder(MainActivity.mContext)
 
-        // Initialize a new instance of alert dialog builder object
-        val builder = AlertDialog.Builder(MainActivity.mContext)
+            builder.setTitle(MainActivity.mContext.getString(R.string.go_renew))
 
-        // Set a title for alert dialog
-        builder.setTitle("Title of AlertDialog.")
-
-        // Set a message for alert dialog
-        builder.setMessage("This is a sample message of AlertDialog.")
+            builder.setMessage(MainActivity.mContext.getString(R.string.confirm_renew_book))
 
 
-        // On click listener for dialog buttons
-        val dialogClickListener = DialogInterface.OnClickListener{ _, which ->
-            when(which){
-                DialogInterface.BUTTON_POSITIVE -> Log.i("data","Data");//toast("Positive/Yes button clicked.")
-                DialogInterface.BUTTON_NEGATIVE -> Log.i("data","Data");//toast("Negative/No button clicked.")
-                DialogInterface.BUTTON_NEUTRAL -> Log.i("data","Data");//toast("Neutral/Cancel button clicked.")
+            // On click listener for dialog buttons
+            val dialogClickListener = DialogInterface.OnClickListener{ _, which ->
+                when(which){
+                    DialogInterface.BUTTON_POSITIVE ->
+                    {
+                        Log.i("data","Data yes " + SharedPrefsUtils.getStringPreference(MainActivity.mContext, "USERID") + " " + (getItem(position) as BorrowHistoryResponse).rono)
+                        APIUtils.get(
+                            SharedPrefsUtils.getStringPreference(MainActivity.mContext, "BASE_URL") + "/renewBook",
+                            listOf(
+                                "userid" to SharedPrefsUtils.getStringPreference(MainActivity.mContext, "USERID"),
+                                "bookRoNo" to (getItem(position) as BorrowHistoryResponse).rono
+                            ), MainActivity.mContext, RenewBookResponse::class.java
+                        )
+                    }
+
+                    DialogInterface.BUTTON_NEGATIVE -> {
+                        Log.i("data", "Data");
+                    }
+                    DialogInterface.BUTTON_NEUTRAL -> {
+                        Log.i("data","Data")
+                    }
+                }
             }
+
+            builder.setPositiveButton(MainActivity.mContext.getString(R.string.confirm),dialogClickListener)
+
+            // Set the alert dialog negative/no button
+            //builder.setNegativeButton("NO",dialogClickListener)
+            builder.setNeutralButton(MainActivity.mContext.getString(R.string.cancel),dialogClickListener)
+
+            dialog = builder.create()
+            dialog.show()
         }
-
-
-        // Set the alert dialog positive/yes button
-        builder.setPositiveButton("YES",dialogClickListener)
-
-        // Set the alert dialog negative/no button
-        //builder.setNegativeButton("NO",dialogClickListener)
-
-        // Set the alert dialog neutral/cancel button
-        builder.setNeutralButton("CANCEL",dialogClickListener)
-
-
-        // Initialize the AlertDialog using builder object
-        dialog = builder.create()
-
-        // Finally, display the alert dialog
-        dialog.show()
     }
 
 }
