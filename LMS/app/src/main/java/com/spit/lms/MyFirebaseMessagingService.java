@@ -129,6 +129,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     NotificationManager.IMPORTANCE_DEFAULT);
             notificationManager.createNotificationChannel(channel);
         }
+        notificationBuilder.setOngoing(true);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }

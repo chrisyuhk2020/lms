@@ -134,6 +134,7 @@
             </com.nex3z.flowlayout.FlowLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/author_header"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
@@ -165,6 +166,7 @@
             </com.nex3z.flowlayout.FlowLayout>
 
             <LinearLayout
+                android:visibility="gone"
                 android:id="@+id/publisher_header"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
